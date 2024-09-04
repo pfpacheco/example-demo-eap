@@ -8,9 +8,11 @@ import com.google.gson.Gson;
 import jakarta.inject.Inject;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -34,5 +36,12 @@ public class DemoResource {
         Gson gson = new Gson();
         DemoRequestBody req = gson.fromJson(request, DemoRequestBody.class);
         return controller.add(req);
-    }  
+    }
+    
+    @GET
+    @Path("/rest/v1/demo/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") Long id) {
+        return controller.findById(id);
+    }
 }

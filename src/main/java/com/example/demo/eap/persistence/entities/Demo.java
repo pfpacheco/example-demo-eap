@@ -10,16 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -46,13 +42,11 @@ public class Demo extends PanacheEntityBase {
     @Column(columnDefinition = "VARCHAR(500)")
     private String description;
     
-    @CreationTimestamp
     @Column(name="created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
     
-    @UpdateTimestamp
     @Column(name="updated_at", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
     
     public static Demo findByName(String name) {
         return find("name", name).singleResult();

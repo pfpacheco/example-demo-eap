@@ -27,14 +27,17 @@ public class DemoService {
         entity.persistAndFlush();
     }
     
+    @Transactional
     public Demo findById(long id) {
-        return Demo.findById(id, LockModeType.READ);
+        return Demo.findById(id);
     }
-    
+
+    @Transactional    
     public Demo findByName(String name) {
         return Demo.findByName(name);
     }
     
+    @Transactional
     public List<Demo> findAll() {
         return Demo.listAll();
     }

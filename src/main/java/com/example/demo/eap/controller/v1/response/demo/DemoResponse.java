@@ -1,5 +1,7 @@
 package com.example.demo.eap.controller.v1.response.demo;
 
+import com.google.gson.JsonObject;
+
 import io.smallrye.common.constraint.NotNull;
 
 import java.io.Serial;
@@ -23,12 +25,12 @@ public class DemoResponse implements Serializable {
     
     @NotNull private int code;
     @NotNull private String status;
-    @NotNull private String message;
+    @NotNull private JsonObject message;
 
     public DemoResponse() {
     }
 
-    public DemoResponse(int code, String status, String message) {
+    public DemoResponse(int code, String status, JsonObject message) {
         this.code = code;
         this.status = status;
         this.message = message;
