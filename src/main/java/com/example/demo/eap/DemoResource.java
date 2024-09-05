@@ -39,6 +39,13 @@ public class DemoResource {
     }
     
     @GET
+    @Path("/rest/v1/demo")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAll() {
+        return controller.findAll();
+    }    
+    
+    @GET
     @Path("/rest/v1/demo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
