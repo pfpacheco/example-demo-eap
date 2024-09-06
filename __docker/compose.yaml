@@ -10,8 +10,9 @@ services:
         POSTGRESQL_USERNAME: admin
         POSTGRESQL_PASSWORD: A7rT9wLz2k
         POSTGRESQL_DATABASE: database
+        POSTGRESQL_PORT_NUMBER: 5442
       ports:
-        - "0.0.0.0:5432:5432"
+        - "0.0.0.0:5442:5442"
       volumes:
         - ./postgresql/data:/var/lib/postgresql/data
         
