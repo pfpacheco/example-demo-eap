@@ -43,7 +43,15 @@ public class DemoResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         return controller.findAll();
-    }    
+    }
+
+    @GET
+    @Path("/rest/v1/demo/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByName(@PathParam("name") String name) {
+        return controller.findByName(name);
+    }
+    
     
     @GET
     @Path("/rest/v1/demo/{id}")

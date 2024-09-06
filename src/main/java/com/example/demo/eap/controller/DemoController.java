@@ -33,6 +33,14 @@ public class DemoController {
     DemoService service;
 
     private static final String DATE_TIME_PATTERN = "dd-MM-yyyy HH:mm:ss";
+    
+    private final Gson gson;
+
+    public DemoController() {
+        this.gson = new GsonBuilder().setDateFormat(DATE_TIME_PATTERN).create();
+    }
+    
+    
 
     /**
      * 
@@ -40,8 +48,6 @@ public class DemoController {
      * @return jakarta.ws.rs.core.Response
      */
     public Response add(DemoRequestBody request) {
-
-        Gson gson = new GsonBuilder().setDateFormat(DATE_TIME_PATTERN).create();
 
         try {
 
@@ -57,7 +63,7 @@ public class DemoController {
 
             DemoResponse response
                     = new DemoResponse(201, Response.Status.CREATED.toString(),
-                            gson.toJsonTree(String.format("Entity id: %s persisted!",
+                            this.gson.toJsonTree(String.format("Entity id: %s persisted!",
                                     result.getId())).getAsJsonObject());
 
             DemoResponseBody body = DemoResponseBody
@@ -65,12 +71,12 @@ public class DemoController {
 
             return Response
                     .status(Response.Status.CREATED)
-                    .entity(gson.toJson(body)).build();
+                    .entity(this.gson.toJson(body)).build();
         } catch (JsonSyntaxException e) {
             
             DemoResponse response
                     = new DemoResponse(500, Response.Status.INTERNAL_SERVER_ERROR.toString(),
-                            gson.toJsonTree("Internal server error!")
+                            this.gson.toJsonTree("Internal server error!")
                                     .getAsJsonObject());
             
             DemoResponseBody body = DemoResponseBody
@@ -78,7 +84,7 @@ public class DemoController {
 
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(gson.toJson(body)).build();
+                    .entity(this.gson.toJson(body)).build();
         }
     }
 
@@ -89,31 +95,29 @@ public class DemoController {
      */
     public Response findById(Long id) {
 
-        Gson gson = new GsonBuilder().setDateFormat(DATE_TIME_PATTERN).create();
-
         try {
             Optional<Demo> entity = Optional.ofNullable(service.findById(id));
 
-            if (!entity.isPresent()) {
+            if (entity.isEmpty()) {
                 throw new NoSuchElementException(String.format("No entity found for id: %s", id));
             }
 
             DemoResponse response
                     = new DemoResponse(200, Response.Status.OK.toString(),
-                            gson.toJsonTree(entity.get()).getAsJsonObject());
+                            this.gson.toJsonTree(entity.get()).getAsJsonObject());
 
             DemoResponseBody body = DemoResponseBody
                     .builder().body(response).build();
 
             return Response
                     .status(Response.Status.OK)
-                    .entity(gson.toJson(body)).build();
+                    .entity(this.gson.toJson(body)).build();
 
         } catch (JsonSyntaxException e) {
             
             DemoResponse response
                     = new DemoResponse(500, Response.Status.INTERNAL_SERVER_ERROR.toString(),
-                            gson.toJsonTree("Internal server error!")
+                            this.gson.toJsonTree("Internal server error!")
                                     .getAsJsonObject());
 
             DemoResponseBody body = DemoResponseBody
@@ -121,8 +125,43 @@ public class DemoController {
 
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(gson.toJson(body)).build();
+                    .entity(this.gson.toJson(body)).build();
         }   
+    }
+    
+    public Response findByName(String name) {
+        
+        try {
+            Optional<Demo> entity = Optional.ofNullable(service.findByName(name));
+            
+            if ( entity.isEmpty() ) {
+                throw new NoSuchElementException(String.format("No entity found for name: %s", name));
+            }
+            
+            DemoResponse response = 
+                    new DemoResponse(200, Response.Status.OK.toString(), 
+                            this.gson.toJsonTree(entity.get()).getAsJsonObject());
+            
+            DemoResponseBody body = DemoResponseBody
+                    .builder().body(response).build();
+            
+            return Response.status(Response.Status.OK)
+                    .entity(this.gson.toJson(body)).build();
+            
+        } catch (JsonSyntaxException e) {
+            
+            DemoResponse response 
+                    = new DemoResponse(500, Response.Status.INTERNAL_SERVER_ERROR.toString(), 
+                            this.gson.toJsonTree("Internal server error!")
+                                    .getAsJsonObject());
+
+            DemoResponseBody body = DemoResponseBody
+                    .builder().body(response).build();
+
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(this.gson.toJson(body)).build();
+        }
     }
     
     /**
@@ -130,8 +169,6 @@ public class DemoController {
      * @return jakarta.ws.rs.core.Response
      */
     public Response findAll() {
-
-        Gson gson = new GsonBuilder().setDateFormat(DATE_TIME_PATTERN).create();
         
         try {
             
@@ -144,7 +181,7 @@ public class DemoController {
             JsonArray demos = new JsonArray();
             
             list.get().forEach(entity -> {
-                demos.add(gson.toJsonTree(entity));
+                demos.add(this.gson.toJsonTree(entity));
             });
             
             JsonObject entityJSON = new JsonObject();
@@ -158,13 +195,13 @@ public class DemoController {
             
             return Response
                     .status(Response.Status.OK)
-                    .entity(gson.toJson(body)).build();
+                    .entity(this.gson.toJson(body)).build();
             
         } catch (JsonSyntaxException e) {
             
             DemoResponse response
                     = new DemoResponse(500, Response.Status.INTERNAL_SERVER_ERROR.toString(),
-                            gson.toJsonTree("Internal server error!")
+                            this.gson.toJsonTree("Internal server error!")
                                     .getAsJsonObject());
 
             DemoResponseBody body = DemoResponseBody
