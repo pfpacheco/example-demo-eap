@@ -63,8 +63,7 @@ public class DemoController {
 
             DemoResponse response
                     = new DemoResponse(201, Response.Status.CREATED.toString(),
-                            this.gson.toJsonTree(String.format("Entity id: %s persisted!",
-                                    result.getId())).getAsJsonObject());
+                            this.gson.toJsonTree(result).getAsJsonObject());
 
             DemoResponseBody body = DemoResponseBody
                     .builder().body(response).build();
@@ -72,11 +71,12 @@ public class DemoController {
             return Response
                     .status(Response.Status.CREATED)
                     .entity(this.gson.toJson(body)).build();
+            
         } catch (JsonSyntaxException e) {
             
             DemoResponse response
                     = new DemoResponse(500, Response.Status.INTERNAL_SERVER_ERROR.toString(),
-                            this.gson.toJsonTree("Internal server error!")
+                           this.gson.toJsonTree("Internal Server Error")
                                     .getAsJsonObject());
             
             DemoResponseBody body = DemoResponseBody

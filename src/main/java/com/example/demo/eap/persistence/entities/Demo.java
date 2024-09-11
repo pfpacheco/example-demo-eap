@@ -16,6 +16,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -42,9 +44,11 @@ public class Demo extends PanacheEntityBase {
     @Column(columnDefinition = "VARCHAR(500)")
     private String description;
     
+    @CreationTimestamp
     @Column(name="created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private Timestamp createdAt;
     
+    @UpdateTimestamp
     @Column(name="updated_at", columnDefinition = "TIMESTAMP", nullable = false)
     private Timestamp updatedAt;
     

@@ -4,8 +4,6 @@ import com.example.demo.eap.persistence.entities.Demo;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-
-import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import java.util.List;
 

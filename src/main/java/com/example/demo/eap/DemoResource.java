@@ -22,14 +22,13 @@ import jakarta.ws.rs.core.Response;
  *
  * @author ppacheco
  */
-@Path("/api")
+@Path("/api/rest/v1/demo")
 public class DemoResource {
     
     @Inject
     DemoController controller;
     
     @POST
-    @Path("/rest/v1/demo")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response add(String request) {
@@ -39,24 +38,22 @@ public class DemoResource {
     }
     
     @GET
-    @Path("/rest/v1/demo")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         return controller.findAll();
     }
-
-    @GET
-    @Path("/rest/v1/demo/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findByName(@PathParam("name") String name) {
-        return controller.findByName(name);
-    }
-    
     
     @GET
-    @Path("/rest/v1/demo/{id}")
+    @Path("/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
         return controller.findById(id);
+    }
+
+    @GET
+    @Path("/name/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByName(@PathParam("name") String name) {
+        return controller.findByName(name);
     }
 }
