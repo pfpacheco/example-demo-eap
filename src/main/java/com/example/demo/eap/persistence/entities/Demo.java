@@ -51,8 +51,4 @@ public class Demo extends PanacheEntityBase {
     @UpdateTimestamp
     @Column(name="updated_at", columnDefinition = "TIMESTAMP", nullable = false)
     private Timestamp updatedAt;
-    
-    public static Demo findByName(String name) {
-        return find("name", name).singleResult();
-    } 
 }

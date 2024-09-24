@@ -30,7 +30,7 @@ import java.util.Optional;
 public class DemoController {
 
     @Inject
-    DemoService service;
+    private DemoService service;
 
     private static final String DATE_TIME_PATTERN = "dd-MM-yyyy HH:mm:ss";
     
@@ -40,8 +40,6 @@ public class DemoController {
         this.gson = new GsonBuilder().setDateFormat(DATE_TIME_PATTERN).create();
     }
     
-    
-
     /**
      * 
      * @param request
@@ -59,7 +57,7 @@ public class DemoController {
             entity.setDescription(bodyRequest.getDescription());
 
             service.add(entity);
-            Demo result = service.findByName(entity.getName());
+            Demo result = service.findById(entity.getId());
 
             DemoResponse response
                     = new DemoResponse(201, Response.Status.CREATED.toString(),

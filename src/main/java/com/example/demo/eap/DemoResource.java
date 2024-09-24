@@ -9,7 +9,6 @@ import jakarta.inject.Inject;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
-
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -22,13 +21,14 @@ import jakarta.ws.rs.core.Response;
  *
  * @author ppacheco
  */
-@Path("/api/rest/v1/demo")
+@Path("/api/rest/v1")
 public class DemoResource {
     
     @Inject
     DemoController controller;
     
     @POST
+    @Path(value = "/demo")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response add(String request) {
@@ -38,22 +38,23 @@ public class DemoResource {
     }
     
     @GET
+    @Path(value = "/demo")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         return controller.findAll();
     }
     
     @GET
-    @Path("/id/{id}")
+    @Path(value = "/demo/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
         return controller.findById(id);
     }
-
+    
     @GET
-    @Path("/name/{name}")
+    @Path(value = "/demo/name/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByName(@PathParam("name") String name) {
+    public Response findByName(@PathParam(value = "name") String name) {
         return controller.findByName(name);
     }
 }

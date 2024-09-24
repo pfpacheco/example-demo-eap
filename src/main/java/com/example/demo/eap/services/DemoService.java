@@ -1,10 +1,13 @@
 package com.example.demo.eap.services;
 
 import com.example.demo.eap.persistence.entities.Demo;
+import com.example.demo.eap.persistence.repositories.DemoRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 /**
@@ -13,35 +16,37 @@ import java.util.List;
  */
 @ApplicationScoped
 public class DemoService {
-   
     
+    @Inject
+    private DemoRepository repository;
+   
     @Transactional
     public void add(Demo entity) {
-        entity.persist();
+        this.repository.persist(entity);
     }
     
     @Transactional
     public void update(Demo entity) {
-        entity.persistAndFlush();
+        this.repository.persistAndFlush(entity);
     }
     
     @Transactional
     public Demo findById(long id) {
-        return Demo.findById(id);
+        return this.repository.findById(id);
     }
 
     @Transactional    
     public Demo findByName(String name) {
-        return Demo.findByName(name);
+        return (Demo) this.repository.findByName(name).singleResult();
     }
     
     @Transactional
     public List<Demo> findAll() {
-        return Demo.listAll();
+        return this.repository.findAll().list();
     }
     
     @Transactional
     public void delete(Long id, Demo entity) {
-        Demo.deleteById(id);
+        this.repository.delete(entity);
     }
 }
